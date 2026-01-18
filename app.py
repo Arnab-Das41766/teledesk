@@ -1,10 +1,15 @@
-from flask import Flask, render_template
+from flask import Flask, send_from_directory, render_template_string
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.')
 
-@app.route('/')
-def home():
-    return render_template('index.html')  # looks in templates/index.html
+@app.route("/")
+def index():
+    with open("index.html") as f:
+        return render_template_string(f.read())
 
-if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000, debug=True)
+@app.route("/download")
+def download():
+    return send_from_directory(".", "setup.exe", as_attachment=True)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
