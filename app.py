@@ -1,15 +1,14 @@
-from flask import Flask, send_from_directory, render_template_string
+from flask import Flask, send_from_directory
 
 app = Flask(__name__, static_folder='.')
 
 @app.route("/")
 def index():
-    with open("index.html") as f:
-        return render_template_string(f.read())
+    return send_from_directory('.', 'index.html')
 
-@app.route("/download")
-def download():
-    return send_from_directory(".", "setup.exe", as_attachment=True)
+@app.route("/testlatest.py")
+def download_script():
+    return send_from_directory(".", "testlatest.exe", as_attachment=True)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
